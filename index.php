@@ -40,6 +40,14 @@
 
   ];
 
+  // foreach ($hotels as $hotel) {
+  //   var_dump($hotel['name']);
+  //   var_dump($hotel['description']);
+  //   var_dump($hotel['parking']);
+  //   var_dump($hotel['vote']);
+  //   var_dump($hotel['distance_to_center']);
+  // }
+
 ?>
 
 <!DOCTYPE html>
@@ -82,6 +90,34 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
+
+
+
+
+<table class="table mt-5">
+  <thead>
+    <tr>
+      <?php foreach($hotels[0] as $key => $hotel): ?>
+      <th scope="col" class="text-center"><?php echo strtoupper(str_replace('_', ' ', $key)) ?></th>
+      <?php endforeach; ?>
+
+    </tr>
+  </thead>
+  <tbody>
+    
+    <?php foreach($hotels as $hotel): ?>
+    <tr class="text-center">
+      <td><?php echo $hotel['name'] ?></td>
+      <td><?php echo $hotel['description'] ?></td>
+      <td><?php echo $hotel['parking'] ? 'Si' : 'No' ?></td>
+      <td><?php echo $hotel['vote'] ?></td>
+      <td><?php echo $hotel['distance_to_center'] ?> Km</td>
+    </tr>
+    <?php endforeach; ?>
+
+  </tbody>
+</table>
+
 
   </div>
   
