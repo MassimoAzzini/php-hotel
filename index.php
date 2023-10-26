@@ -40,13 +40,21 @@
 
   ];
 
-  // foreach ($hotels as $hotel) {
-  //   var_dump($hotel['name']);
-  //   var_dump($hotel['description']);
-  //   var_dump($hotel['parking']);
-  //   var_dump($hotel['vote']);
-  //   var_dump($hotel['distance_to_center']);
-  // }
+  $filteredArray = [];
+
+  $pippo = isset(($_GET['search_parking'])) ? $_GET['search_parking'] : '2';
+
+  if ($pippo == 1) {
+    foreach ($hotels as $hotel) {
+      if ($hotel['parking']) {
+        $filteredArray[] = $hotel;
+      }
+    }
+
+    $hotels = $filteredArray;
+  };
+
+  var_dump(isset($_GET['search_parking']));
 
 ?>
 
@@ -64,7 +72,7 @@
 <body>
   <div class="container py-5">
 
-    <form actions="index.pxh" method="GET" class="row">
+    <form actions="index.php" method="GET" class="row">
 
       <div class="col-2">
         <select class="form-select" id="inlineFormSelectPref" name="search_vote">
@@ -79,7 +87,7 @@
       </div>
   
       <div class="col-2">
-        <select class="form-select" id="inlineFormSelectPref" name="search_parching">
+        <select class="form-select" id="inlineFormSelectPref" name="search_parking">
           <option selected>Parcheggio</option>
           <option value="1">Si</option>
           <option value="2">Non importante</option>
