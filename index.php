@@ -40,11 +40,13 @@
 
   ];
 
+  // creo un array vuoto per pushare gli hotel filtrati
   $filteredArray = [];
 
-  $parkingValue = isset(($_GET['search_parking'])) ? $_GET['search_parking'] : false;
+
+  // filtro per parcheggio
+  $parkingValue = isset($_GET['search_parking']) ? $_GET['search_parking'] : false;
   
-  var_dump($parkingValue);
 
   if ($parkingValue) {
     foreach ($hotels as $hotel) {
@@ -56,8 +58,19 @@
     $hotels = $filteredArray;
   };
 
-  var_dump(isset($_GET['search_parking']));
+  // filtro per voto
+  $voteValue = isset($_GET['search_vote']) ? $_GET['search_vote'] : '0';
 
+  // devo resettare l'array di filtraggio per evitare stampe doppie
+  $filteredArray = [];
+
+  foreach ($hotels as $hotel) {
+    if ($hotel['vote'] >= $voteValue) {
+      $filteredArray[] = $hotel;
+    }
+  }
+  $hotels = $filteredArray;
+  
 ?>
 
 <!DOCTYPE html>
@@ -74,11 +87,12 @@
 <body>
   <div class="container py-5">
 
+  <!-- FORM PER FILTRAGGIO -->
     <form actions="index.php" method="GET" class="row">
 
       <div class="col-2">
         <select class="form-select" id="inlineFormSelectPref" name="search_vote">
-          <option selected>Vote</option>
+          <option selected value="0">Vote</option>
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -90,7 +104,7 @@
   
       <div class="col-2">
         <select class="form-select" id="inlineFormSelectPref" name="search_parking">
-          <option value= "0">Parcheggio</option>
+          <option selected value="0">Parcheggio</option>
           <option value= "1">Si</option>
           <option value= "0">Non importante</option>
         </select>
@@ -100,34 +114,35 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
+  <!-- END FORM PER FILTRAGGIO -->
 
+  <!-- TABELLA HOTEL -->
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <?php if (count($hotels) > 0 ): ?> 
+            <?php foreach($hotels[0] as $key => $hotel): ?>
+            <th scope="col" class="text-center"><?php echo strtoupper(str_replace('_', ' ', $key)) ?></th>
+            <?php endforeach; ?>
+          <?php endif; ?>
 
+        </tr>
+      </thead>
+      <tbody>
+        
+        <?php foreach($hotels as $hotel): ?>
+        <tr class="text-center">
+          <td><?php echo $hotel['name'] ?></td>
+          <td><?php echo $hotel['description'] ?></td>
+          <td><?php echo $hotel['parking'] ? 'Si' : 'No' ?></td>
+          <td><?php echo $hotel['vote'] ?></td>
+          <td><?php echo $hotel['distance_to_center'] ?> Km</td>
+        </tr>
+        <?php endforeach; ?>
 
-
-<table class="table mt-5">
-  <thead>
-    <tr>
-      <?php foreach($hotels[0] as $key => $hotel): ?>
-      <th scope="col" class="text-center"><?php echo strtoupper(str_replace('_', ' ', $key)) ?></th>
-      <?php endforeach; ?>
-
-    </tr>
-  </thead>
-  <tbody>
-    
-    <?php foreach($hotels as $hotel): ?>
-    <tr class="text-center">
-      <td><?php echo $hotel['name'] ?></td>
-      <td><?php echo $hotel['description'] ?></td>
-      <td><?php echo $hotel['parking'] ? 'Si' : 'No' ?></td>
-      <td><?php echo $hotel['vote'] ?></td>
-      <td><?php echo $hotel['distance_to_center'] ?> Km</td>
-    </tr>
-    <?php endforeach; ?>
-
-  </tbody>
-</table>
-
+      </tbody>
+    </table>
+  <!-- END TABELLA HOTEL -->
 
   </div>
   
