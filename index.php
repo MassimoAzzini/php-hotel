@@ -42,9 +42,11 @@
 
   $filteredArray = [];
 
-  $pippo = isset(($_GET['search_parking'])) ? $_GET['search_parking'] : '2';
+  $parkingValue = isset(($_GET['search_parking'])) ? $_GET['search_parking'] : false;
+  
+  var_dump($parkingValue);
 
-  if ($pippo == 1) {
+  if ($parkingValue) {
     foreach ($hotels as $hotel) {
       if ($hotel['parking']) {
         $filteredArray[] = $hotel;
@@ -88,9 +90,9 @@
   
       <div class="col-2">
         <select class="form-select" id="inlineFormSelectPref" name="search_parking">
-          <option selected>Parcheggio</option>
-          <option value="1">Si</option>
-          <option value="2">Non importante</option>
+          <option value= "0">Parcheggio</option>
+          <option value= "1">Si</option>
+          <option value= "0">Non importante</option>
         </select>
       </div>
   
